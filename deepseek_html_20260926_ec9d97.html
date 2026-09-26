@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Актуализация: параллелограмм — слайды</title>
+
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+  :root{
+    --main:#3498db;
+    --dark:#2980b9;
+    --light:#eaf4fc;
+    --border:#aed6f1;
+    --bg:#f5faff;
+    --green:#27ae60;
+    --red:#e74c3c;
+    --hint-bg:#fef3c7;
+    --hint-bar:#f59e0b;
+
+    /* === МАСШТАБ ТЕКСТА === */
+    --text-scale: 1.0;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    margin:0;
+    padding:0;
+    scroll-behavior:smooth;
+  }
+
+  body{
+    font-family:"Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size:calc(18px * var(--text-scale));
+    background:var(--bg);
+    color:#2c3e50;
+    line-height:1.55;
+  }
+
+  /* ---------- слайд как секция сайта ---------- */
+  .slide{
+    display:none;
+    max-width:1100px;
+    margin:40px auto 120px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 15px 40px rgba(52,152,219,.12);
+    padding:40px 50px 50px;
+    position:relative;
+    animation:fade .35s ease;
+  }
+  .slide.active{display:block;}
+  @keyframes fade{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:none;}
+  }
+
+  .slide-num{
+    position:absolute; top:16px; left:24px;
+    font-size:calc(14px * var(--text-scale));
+    color:var(--border); font-weight:700;
+  }
+
+  h1{
+    font-size:calc(2rem * var(--text-scale));
+    color:var(--dark);
+    text-align:center;
+    margin:0 0 10px;
+  }
+  .subtitle{
+    text-align:center;
+    color:var(--main);
+    font-size:calc(1.1rem * var(--text-scale));
+    margin-bottom:30px;
+  }
+
+  h2{
+    font-size:calc(1.8rem * var(--text-scale));
+    color:var(--dark);
+    margin:0 0 22px;
+    padding-left:18px;
+    position:relative;
+  }
+  h2::before{
+    content:""; position:absolute; left:0; top:6px; bottom:6px;
+    width:6px; border-radius:3px; background:var(--main);
+  }
+
+  h3{
+    color:var(--main);
+    font-size:calc(1.15rem * var(--text-scale));
+    margin:0 0 8px;
+  }
+  p{
+    margin:10px 0;
+    font-size:calc(17px * var(--text-scale));
+  }
+  ul,ol{margin:10px 0 10px 22px; padding:0;}
+  li{margin:5px 0; font-size:calc(17px * var(--text-scale));}
+
+  /* ---------- сетки ---------- */
+  .grid{display:grid; gap:20px;}
+  .grid-2{grid-template-columns:1fr 1fr;}
+
+  .card{
+    background:var(--light);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 22px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  details{
+    margin-top:auto;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 16px;
+  }
+  summary{
+    cursor:pointer;
+    font-weight:600;
+    color:var(--dark);
+    outline:none;
+    font-size:calc(15px * var(--text-scale));
+  }
+  details[open] summary{margin-bottom:10px;}
+  details p{
+    font-size:calc(16px * var(--text-scale));
+    margin:6px 0;
+  }
+  details ul{
+    font-size:calc(16px * var(--text-scale));
+  }
+
+  .figure{
+    display:flex; justify-content:center; align-items:center;
+    margin:12px 0;
+    background:#fff;
+    border-radius:10px;
+    padding:8px;
+  }
+  svg{max-width:100%; height:auto;}
+  .svg-label-blue{font-size:calc(15px * var(--text-scale)); fill:#2980b9; font-weight:700;}
+  .svg-label-green{font-size:calc(15px * var(--text-scale)); fill:#27ae60; font-weight:700;}
+
+  /* ---------- task-box ---------- */
+  .task-box{
+    background:var(--light);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px 26px;
+    margin:22px 0;
+  }
+  .task-head{display:flex; align-items:center; gap:14px; margin-bottom:12px;}
+  .task-num{
+    width:calc(38px * var(--text-scale));
+    height:calc(38px * var(--text-scale));
+    border-radius:50%;
+    background:var(--main); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700;
+    font-size:calc(18px * var(--text-scale));
+    box-shadow:0 4px 10px rgba(52,152,219,.35);
+    flex:0 0 auto;
+  }
+  .task-title{
+    font-weight:700;
+    color:var(--dark);
+    font-size:calc(1.15rem * var(--text-scale));
+  }
+
+  /* ---------- подсказки ---------- */
+  .hint{
+    background:var(--hint-bg);
+    border-left:6px solid var(--hint-bar);
+    border-radius:8px;
+    padding:12px 18px;
+    margin:16px 0;
+    font-size:calc(16px * var(--text-scale));
+  }
+  .hint b{color:#b45309;}
+
+  .answer{color:var(--green); font-weight:700;}
+
+  /* ---------- интерактивные точки (задание 12) ---------- */
+  .choice{cursor:pointer;}
+  .choice circle{transition:fill .2s, stroke .2s, r .15s;}
+  .choice:hover circle{r:11;}
+
+  /* ---------- точки D в задании 13 ---------- */
+  .point-d13 circle,
+  .point-d13 text{
+    transition:opacity .4s ease;
+  }
+
+  /* ---------- тест ---------- */
+  .quiz-item{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 20px;
+    margin:10px 0;
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  .quiz-item .q-text{
+    flex:1; min-width:240px;
+    font-weight:600;
+    font-size:calc(17px * var(--text-scale));
+  }
+  .quiz-btns{display:flex; gap:10px; flex-wrap:wrap;}
+  .quiz-btn{
+    border:2px solid var(--main);
+    background:#fff; color:var(--main);
+    border-radius:10px;
+    padding:8px 20px;
+    font-size:calc(16px * var(--text-scale));
+    font-weight:700;
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .quiz-btn:hover{background:#eaf4fc;}
+  .quiz-btn.correct{background:var(--green); border-color:var(--green); color:#fff;}
+  .quiz-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
+  .quiz-feedback{
+    flex-basis:100%;
+    font-size:calc(16px * var(--text-scale));
+    font-weight:600;
+  }
+  .quiz-feedback.ok{color:var(--green);}
+  .quiz-feedback.no{color:var(--red);}
+
+  /* ---------- навигация ---------- */
+  .nav{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+    display:flex; gap:14px; z-index:100;
+  }
+  .nav button{
+    background:var(--main); color:#fff; border:none;
+    padding:12px 28px; border-radius:30px;
+    font-size:16px; font-weight:600; cursor:pointer;
+    box-shadow:0 6px 18px rgba(52,152,219,.35);
+    transition:background .2s, transform .1s;
+  }
+  .nav button:hover{background:var(--dark);}
+  .nav button:active{transform:scale(.97);}
+  .nav button:disabled{background:#c7dff0; cursor:default; box-shadow:none;}
+
+  .counter{
+    position:fixed; top:14px; right:20px; z-index:100;
+    background:#fff; color:var(--dark);
+    border:1px solid var(--border); border-radius:20px;
+    padding:4px 16px; font-size:15px; font-weight:600;
+    box-shadow:0 4px 12px rgba(52,152,219,.15);
+  }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width:760px){
+    .slide{margin:60px 12px 130px; padding:26px 20px 34px;}
+    .grid-2{grid-template-columns:1fr;}
+    h1{font-size:1.5rem;}
+    h2{font-size:1.4rem;}
+    body{font-size:16px;}
+    .nav button{padding:10px 20px; font-size:15px;}
+    .counter{top:10px; right:10px; font-size:13px; padding:3px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="counter" id="counter">1 / 6</div>
+
+<!-- ================= СЛАЙД 1. Титул ================= -->
+<section class="slide active" data-num="1">
+  <span class="slide-num">Слайд 1</span>
+  <h1>Актуализация: параллелограмм</h1>
+  <p class="subtitle">Вопросы и построения · 8 класс</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Сначала — вопросы</h3>
+      <p>Вспоминаем определение, свойства и признаки параллелограмма.</p>
+    </div>
+    <div class="card">
+      <h3>Потом — построения</h3>
+      <p>Строим четвёртую вершину параллелограмма на клетчатой бумаге.</p>
+    </div>
+  </div>
+
+  <div class="hint" style="margin-top:26px;">
+    <b>Навигация:</b> кнопки внизу или стрелки ← / → на клавиатуре.
+  </div>
+</section>
+
+<!-- ================= СЛАЙД 2. Вопросы 1–4 ================= -->
+<section class="slide" data-num="2">
+  <span class="slide-num">Слайд 2</span>
+  <h2>Вопросы 1–4</h2>
+
+  <div class="grid grid-2">
+
+    <div class="card">
+      <h3>1. Определение</h3>
+      <p>Какую фигуру называют параллелограммом? Как образовалось данное слово?</p>
+      <details><summary>Ответ</summary>
+        <p>Четырёхугольник, у которого противоположные стороны попарно параллельны.
+           Слово — от греч. «параллелос» (идущий рядом) + «грамма» (линия).</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>2. Форма листа</h3>
+      <p>Имеет ли лист бумаги форму параллелограмма?</p>
+      <details><summary>Ответ</summary>
+        <p>Обычный лист — прямоугольник, а прямоугольник — частный случай параллелограмма. Значит, да.</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>3. Сумма двух углов</h3>
+      <p>Верно ли, что сумма двух углов параллелограмма равна развёрнутому углу?</p>
+      <div class="figure">
+        <svg width="180" height="120" viewBox="0 0 180 120">
+          <polygon points="20,100 140,100 160,20 40,20" fill="#eaf4fc" stroke="#2980b9" stroke-width="2"/>
+          <text x="8" y="112" class="svg-label-blue">A</text>
+          <text x="142" y="112" class="svg-label-blue">B</text>
+          <text x="162" y="18" class="svg-label-blue">C</text>
+          <text x="28" y="18" class="svg-label-blue">D</text>
+        </svg>
+      </div>
+      <details><summary>Ответ</summary>
+        <p>Не всегда: сумма <i>соседних</i> углов равна \(180^\circ\), а <i>противоположных</i> — нет.</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>4. Диагональ и треугольники</h3>
+      <p>Верно ли, что диагональ разбивает параллелограмм на два равных треугольника?</p>
+      <div class="figure">
+        <svg width="200" height="120" viewBox="0 0 200 120">
+          <polygon points="20,100 150,100 180,20 50,20" fill="#eaf4fc" stroke="#2980b9" stroke-width="2"/>
+          <line x1="20" y1="100" x2="180" y2="20" stroke="#e74c3c" stroke-width="2"/>
+          <text x="8" y="112" class="svg-label-blue">A</text>
+          <text x="152" y="112" class="svg-label-blue">B</text>
+          <text x="182" y="18" class="svg-label-blue">C</text>
+          <text x="38" y="18" class="svg-label-blue">D</text>
+        </svg>
+      </div>
+      <details><summary>Ответ</summary>
+        <p>Да. \(ABC = CDA\) по трём сторонам.</p>
+      </details>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= СЛАЙД 3. Вопросы 5–8 ================= -->
+<section class="slide" data-num="3">
+  <span class="slide-num">Слайд 3</span>
+  <h2>Вопросы 5–8</h2>
+
+  <div class="grid grid-2">
+
+    <div class="card">
+      <h3>5. Склейка треугольников</h3>
+      <p>Два равных треугольника склеили по одной стороне. Будет ли четырёхугольник параллелограммом?</p>
+      <div class="figure">
+        <svg width="200" height="120" viewBox="0 0 200 120">
+          <polygon points="30,100 170,100 100,20" fill="#eaf4fc" stroke="#2980b9" stroke-width="2"/>
+          <polygon points="30,100 170,100 100,180" fill="#dff0fb" stroke="#2980b9" stroke-width="2"/>
+        </svg>
+      </div>
+      <details><summary>Ответ</summary>
+        <p>Да, если склеивать по соответственным сторонам.</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>6. Стороны: свойство и признак</h3>
+      <p>Каким свойством обладают стороны? Какой признак соответствует?</p>
+      <details><summary>Ответ</summary>
+        <p><b>Свойство:</b> противоположные стороны равны.<br>
+           <b>Признак:</b> если противоположные стороны попарно равны — параллелограмм.</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>7. Углы: свойство и признак</h3>
+      <p>Каким свойством обладают углы? Какой признак соответствует?</p>
+      <details><summary>Ответ</summary>
+        <p><b>Свойство:</b> противоположные углы равны.<br>
+           <b>Признак:</b> если противоположные углы попарно равны — параллелограмм.</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>8. Диагонали: свойство и признак</h3>
+      <p>Каким свойством обладают диагонали? Какой признак соответствует?</p>
+      <div class="figure">
+        <svg width="200" height="120" viewBox="0 0 200 120">
+          <polygon points="20,100 150,100 180,20 50,20" fill="#eaf4fc" stroke="#2980b9" stroke-width="2"/>
+          <line x1="20" y1="100" x2="180" y2="20" stroke="#3498db" stroke-width="2" stroke-dasharray="5 4"/>
+          <line x1="150" y1="100" x2="50" y2="20" stroke="#3498db" stroke-width="2" stroke-dasharray="5 4"/>
+          <circle cx="100" cy="60" r="4" fill="#e74c3c"/>
+          <text x="108" y="58" class="svg-label-blue">O</text>
+        </svg>
+      </div>
+      <details><summary>Ответ</summary>
+        <p><b>Свойство:</b> диагонали делятся пополам.<br>
+           <b>Признак:</b> если диагонали делятся пополам — параллелограмм.</p>
+      </details>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= СЛАЙД 4. Вопросы 9–11 ================= -->
+<section class="slide" data-num="4">
+  <span class="slide-num">Слайд 4</span>
+  <h2>Вопросы 9–11</h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>9. Ловушка: две стороны</h3>
+      <p>У четырёхугольника две стороны равны, а две другие параллельны. Это параллелограмм?</p>
+      <details><summary>Ответ</summary>
+        <p>Не всегда. Например, равнобедренная трапеция. Нужны <i>противоположные</i> равные и параллельные стороны.</p>
+      </details>
+    </div>
+
+    <div class="card">
+      <h3>10. Диагонали и 4 треугольника</h3>
+      <p>Верно ли, что диагонали разбивают параллелограмм на четыре равных треугольника?</p>
+      <details><summary>Ответ</summary>
+        <p>Нет. На 4 треугольника равной площади — да, но не равных между собой.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <h3>11. Обратное утверждение</h3>
+    <p>Приведите свойство параллелограмма, для которого обратное утверждение неверно.</p>
+    <details><summary>Ответ</summary>
+      <p>«В параллелограмме диагонали равны» — как свойство неверно (это свойство прямоугольника).
+         Обратное: «если диагонали равны, то это параллелограмм» — тоже неверно (равнобедренная трапеция).</p>
+    </details>
+  </div>
+</section>
+
+<!-- ================= СЛАЙД 5. Задание 12 ================= -->
+<section class="slide" data-num="5">
+  <span class="slide-num">Слайд 5</span>
+  <h2>Задание 12</h2>
+
+  <div class="task-box">
+    <div class="task-head">
+      <div class="task-num">12</div>
+      <div class="task-title">Найди четвёртую вершину \(D\)</div>
+    </div>
+    <p>На клетчатой бумаге отмечены три точки. Выбери четвёртую так, чтобы получился параллелограмм.</p>
+
+    <div class="figure">
+      <svg width="560" height="360" viewBox="0 0 420 270" id="grid12">
+        <rect x="0" y="0" width="420" height="270" fill="#ffffff"/>
+        <defs>
+          <pattern id="grid12p" width="30" height="30" patternUnits="userSpaceOnUse"
+                   x="30" y="20">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#b8d4e8" stroke-width="1.4"/>
+          </pattern>
+        </defs>
+        <rect x="30" y="20" width="360" height="240" fill="url(#grid12p)" stroke="#8fbcd9" stroke-width="1.6"/>
+
+        <circle cx="90"  cy="200" r="6" fill="#2980b9"/>
+        <text x="76"  y="222" class="svg-label-blue">A</text>
+        <circle cx="150" cy="200" r="6" fill="#2980b9"/>
+        <text x="156" y="222" class="svg-label-blue">B</text>
+        <circle cx="270" cy="110" r="6" fill="#2980b9"/>
+        <text x="278" y="106" class="svg-label-blue">C</text>
+
+        <g class="choice" data-correct="false">
+          <circle cx="210" cy="20"  r="7" fill="#f5b041" stroke="#e67e22" stroke-width="2"/>
+          <text x="220" y="16"  style="font-size:13px; fill:#e67e22; font-weight:700;">1</text>
+        </g>
+        <g class="choice" data-correct="true">
+          <circle cx="210" cy="110" r="7" fill="#f5b041" stroke="#e67e22" stroke-width="2"/>
+          <text x="220" y="106" style="font-size:13px; fill:#e67e22; font-weight:700;">2</text>
+        </g>
+        <g class="choice" data-correct="false">
+          <circle cx="210" cy="200" r="7" fill="#f5b041" stroke="#e67e22" stroke-width="2"/>
+          <text x="220" y="196" style="font-size:13px; fill:#e67e22; font-weight:700;">3</text>
+        </g>
+        <g class="choice" data-correct="true">
+          <circle cx="330" cy="110" r="7" fill="#f5b041" stroke="#e67e22" stroke-width="2"/>
+          <text x="340" y="106" style="font-size:13px; fill:#e67e22; font-weight:700;">4</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hint" id="fb12" style="display:none;"></div>
+
+    <details>
+      <summary>Показать ответ и рассуждение</summary>
+      <p>Четвёртую вершину можно поставить <b>двумя способами</b>:</p>
+      <ul>
+        <li><b>Точка №2</b> — порядок вершин \(A, B, C, D_2\):<br>
+            \(D_2 = A + \vec{BC}\). Сдвиг \(B \to C\): 4 вправо, 3 вниз. Тот же сдвиг из \(A\) даёт \((6;\ 3)\).</li>
+        <li><b>Точка №4</b> — порядок вершин \(A, B, D_4, C\):<br>
+            \(D_4 = B + C - A\) (вершина, противоположная \(A\)).</li>
+      </ul>
+      <p class="answer">Ответ: точки 2 и 4.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ================= СЛАЙД 6. Задание 13 ================= -->
+<section class="slide" data-num="6">
+  <span class="slide-num">Слайд 6</span>
+  <h2>Задание 13</h2>
+
+  <div class="task-box">
+    <div class="task-head">
+      <div class="task-num">13</div>
+      <div class="task-title">Сколько всего таких точек?</div>
+    </div>
+    <p>Даны три точки. Сколько существует способов достроить их до параллелограмма?</p>
+
+    <div class="figure">
+      <svg width="560" height="360" viewBox="0 0 420 270" id="grid13">
+        <rect x="0" y="0" width="420" height="270" fill="#ffffff"/>
+        <defs>
+          <pattern id="grid13p" width="30" height="30" patternUnits="userSpaceOnUse"
+                   x="30" y="20">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#b8d4e8" stroke-width="1.4"/>
+          </pattern>
+        </defs>
+        <rect x="30" y="20" width="360" height="240" fill="url(#grid13p)" stroke="#8fbcd9" stroke-width="1.6"/>
+
+        <!-- данные точки A, B, C -->
+        <circle cx="150" cy="170" r="6" fill="#2980b9"/>
+        <text x="136" y="192" class="svg-label-blue">A</text>
+        <circle cx="210" cy="110" r="6" fill="#2980b9"/>
+        <text x="196" y="104" class="svg-label-blue">B</text>
+        <circle cx="270" cy="170" r="6" fill="#2980b9"/>
+        <text x="278" y="192" class="svg-label-blue">C</text>
+
+        <!-- Три возможные точки D (скрыты до ответа) -->
+        <g class="point-d13">
+          <circle cx="330" cy="110" r="9" fill="#27ae60" stroke="#1e8449" stroke-width="2.5" opacity="0"/>
+          <text x="343" y="116" class="svg-label-green" opacity="0">D₁</text>
+        </g>
+        <g class="point-d13">
+          <circle cx="210" cy="230" r="9" fill="#27ae60" stroke="#1e8449" stroke-width="2.5" opacity="0"/>
+          <text x="223" y="236" class="svg-label-green" opacity="0">D₂</text>
+        </g>
+        <g class="point-d13">
+          <circle cx="90" cy="110" r="9" fill="#27ae60" stroke="#1e8449" stroke-width="2.5" opacity="0"/>
+          <text x="103" y="116" class="svg-label-green" opacity="0">D₃</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="quiz-item" data-correct="true" style="margin-top:12px;">
+      <div class="q-text">Сколько всего таких точек?</div>
+      <div class="quiz-btns">
+        <button class="quiz-btn" data-ans="false">1</button>
+        <button class="quiz-btn" data-ans="false">2</button>
+        <button class="quiz-btn" data-ans="true">3</button>
+        <button class="quiz-btn" data-ans="false">6</button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <details>
+      <summary>Показать ответ и рассуждение</summary>
+      <p>Три способа — в зависимости от того, какая из данных точек противоположна \(D\):</p>
+      <ul>
+        <li>\(D_1 = B + C - A\); \(D_1\) противоположна \(A\);</li>
+        <li>\(D_2 = A + C - B\); \(D_2\) противоположна \(B\);</li>
+        <li>\(D_3 = A + B - C\); \(D_3\) противоположна \(C\).</li>
+      </ul>
+      <p class="answer">Ответ: 3 точки.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ================= НАВИГАЦИЯ ================= -->
+<div class="nav">
+  <button id="prev">← Назад</button>
+  <button id="next">Вперёд →</button>
+</div>
+
+<script>
+  /* ---------- навигация ---------- */
+  const slides = document.querySelectorAll('.slide');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const counter = document.getElementById('counter');
+  let current = 0;
+
+  function showSlide(index){
+    slides.forEach((s, i) => s.classList.toggle('active', i === index));
+    current = index;
+    prevBtn.disabled = (index === 0);
+    nextBtn.disabled = (index === slides.length - 1);
+    counter.textContent = (index + 1) + ' / ' + slides.length;
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  prevBtn.addEventListener('click', () => { if(current > 0) showSlide(current - 1); });
+  nextBtn.addEventListener('click', () => { if(current < slides.length - 1) showSlide(current + 1); });
+
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowLeft' && current > 0) showSlide(current - 1);
+    if(e.key === 'ArrowRight' && current < slides.length - 1) showSlide(current + 1);
+  });
+
+  showSlide(0);
+
+  /* ---------- задание 12: выбор точки ---------- */
+  document.querySelectorAll('#grid12 .choice').forEach(choice => {
+    choice.addEventListener('click', () => {
+      const grid = document.querySelector('#grid12');
+      if (grid.dataset.answered === 'true') return;
+
+      const correct = choice.dataset.correct === 'true';
+      const circle = choice.querySelector('circle');
+      const fb = document.getElementById('fb12');
+
+      if (correct) {
+        circle.setAttribute('fill', '#27ae60');
+        circle.setAttribute('stroke', '#1e8449');
+        fb.style.display = 'block';
+        fb.innerHTML = '<b>✔ Верно!</b> Эта точка даёт параллелограмм. ' +
+                       'Обрати внимание: подходят <b>две</b> точки — №2 и №4, ' +
+                       'но с разным порядком вершин.';
+        grid.dataset.answered = 'true';
+      } else {
+        circle.setAttribute('fill', '#e74c3c');
+        circle.setAttribute('stroke', '#c0392b');
+        fb.style.display = 'block';
+        fb.innerHTML = '<b>✘ Не подходит.</b> Попробуй другую точку.';
+      }
+    });
+  });
+
+  /* ---------- задание 13: показать все три точки D ---------- */
+  function showD13(){
+    document.querySelectorAll('.point-d13 circle, .point-d13 text').forEach(el => {
+      el.setAttribute('opacity', '1');
+    });
+  }
+
+  /* ---------- задание 13: тест ---------- */
+  document.querySelectorAll('.quiz-item').forEach(item => {
+    const correct = item.dataset.correct === 'true';
+    const feedback = item.querySelector('.quiz-feedback');
+    const buttons = item.querySelectorAll('.quiz-btn');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.disabled = true);
+        const userAns = btn.dataset.ans === 'true';
+
+        if (userAns === correct) {
+          btn.classList.add('correct');
+          feedback.textContent = '✔ Верно!';
+          feedback.className = 'quiz-feedback ok';
+        } else {
+          btn.classList.add('wrong');
+          buttons.forEach(b => {
+            if ((b.dataset.ans === 'true') === correct) b.classList.add('correct');
+          });
+          feedback.textContent = '✘ Неверно. Правильный ответ — 3.';
+          feedback.className = 'quiz-feedback no';
+        }
+
+        // при любом ответе — показываем точки на чертеже
+        showD13();
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
